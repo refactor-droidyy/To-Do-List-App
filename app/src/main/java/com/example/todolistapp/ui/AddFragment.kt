@@ -13,11 +13,12 @@ import com.example.todolistapp.R
 import com.example.todolistapp.db.Note
 import com.example.todolistapp.db.NoteDatabase
 import kotlinx.android.synthetic.main.fragment_add.*
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass.
  */
-class AddFragment : Fragment() {
+class AddFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,23 +46,29 @@ class AddFragment : Fragment() {
                 return@setOnClickListner
             }
 
-            val notee = Note(titlee, note)
-            save(notee)
+            launch {
 
-            Toast.makeText(context,"Saved",Toast.LENGTH_LONG).show()
-        }
-    }
-    private fun save(note : Note){
-        class Save : AsyncTask<Void, Void, Void>(){
-            override fun doInBackground(vararg p0: Void?): Void? {
-
-                NoteDatabase(activity!!).getNoteDao().addNote(note)
-                return null
+                val notee = Note(titlee, note)
+                context?.let {
+                    it?.let {  NoteDatabase(it).getNoteDao().addNote(notee) }
+                    it.toast("Notes Saved")
+                }
             }
 
 
         }
-
-        Save().execute()
     }
+//    private fun save(note : Note){
+//        class Save : AsyncTask<Void, Void, Void>(){
+//            override fun doInBackground(vararg p0: Void?): Void? {
+//
+//                NoteDatabase(activity!!).getNoteDao().addNote(note)
+//                return null
+//            }
+//
+//
+//        }
+//
+//        Save().execute()
+//    }
 }

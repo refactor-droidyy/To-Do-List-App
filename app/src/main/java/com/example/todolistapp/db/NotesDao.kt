@@ -1,5 +1,6 @@
 package com.example.todolistapp.db
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -8,10 +9,10 @@ import androidx.room.Query
 interface NotesDao {
 
     @Insert
-    fun addNote(note: Note)
+    suspend fun addNote(note: Note)
 
     @Query("SELECT * FROM note ORDER BY id DESC")
-     fun getAllNotes() : List<Note>
+    suspend fun getAllNotes() : List<Note>
 
 
 }
